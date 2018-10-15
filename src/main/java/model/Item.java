@@ -9,6 +9,10 @@ public class Item {
     public Item() {
     }
 
+    public Item(String item) {
+        this.item = item;
+    }
+
     public String getId() {
         return id;
     }
