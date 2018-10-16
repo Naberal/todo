@@ -18,17 +18,12 @@ public class Window {
 
     public void frame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        paint();
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+        table();
+        add();
         frame.setVisible(true);
         frame.setLocation(400, 100);
         frame.setSize(500, 500);
-    }
-
-    private void paint() {
-        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-        table();
-        contentPane.add(addField());
-        contentPane.add(addButton(addField()));
     }
 
     private void table() {
@@ -36,43 +31,49 @@ public class Window {
             Item item = all.get(i);
             JTextField textField = new JTextField(item.getItem());
             textField.setAutoscrolls(true);
-            JButton button = new JButton("update");
-            button.addActionListener(new ActionListener() {
+            JButton update = new JButton("update");
+            update.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     item.setItem(textField.getText());
                     service.update(item);
                 }
             });
-            JButton button1 = new JButton("delete");
-            button1.addActionListener(new ActionListener() {
+            JButton delete = new JButton("delete");
+            delete.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     service.delete(item);
+                    contentPane.remove(textField);
+                    contentPane.remove(update);
+                    contentPane.remove(delete);
+                    frame.invalidate();
+                    frame.validate();
+                    frame.repaint();
                 }
             });
             contentPane.add(textField);
-            contentPane.add(button);
-            contentPane.add(button1);
+            contentPane.add(update);
+            contentPane.add(delete);
         }
     }
 
-    private JTextField addField() {
+    private void add() {
         JTextField textField = new JTextField("Write new item");
         textField.setAutoscrolls(true);
-        return textField;
-    }
-
-    private JButton addButton(JTextField textField) {
         JButton button = new JButton("Save item");
         button.setAutoscrolls(true);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                service.save(new Item(textField.getText()));
+                Item item = new Item(textField.getText());
+                service.save(item);
                 contentPane.removeAll();
-                paint();
-                contentPane.revalidate();
-                contentPane.repaint();
+                table();
+                add();
+                frame.invalidate();
+                frame.validate();
+                frame.repaint();
             }
         });
-        return button;
+        contentPane.add(textField);
+        contentPane.add(button);
     }
 }
