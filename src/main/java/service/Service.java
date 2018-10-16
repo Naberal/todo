@@ -2,6 +2,11 @@ package service;
 
 import java.util.List;
 
+/**
+ * Interface for CRUD
+ *
+ * @param <T>-data
+ */
 public interface Service<T> {
     List<T> getAll();
 

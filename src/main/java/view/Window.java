@@ -9,6 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * User Interface class
+ * At first time use swing
+ *
+ * @author Khmelyar Volodymer
+ */
 public class Window {
     private JFrame frame = new JFrame("todo");
     private Container contentPane = frame.getContentPane();

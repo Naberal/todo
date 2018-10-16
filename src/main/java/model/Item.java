@@ -2,6 +2,11 @@ package model;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * Class model for items
+ *
+ * @author Khmelyar Volodymyr
+ */
 public class Item {
     private String item;
     private String objectId;

@@ -20,11 +20,20 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
+/**
+ * Class implements {@link Service}
+ *
+ * @author Khmelyar Volodymer
+ */
 public class ServiceImp implements Service<Item> {
     private Properties properties = new Properties();
     private String url;
     private HttpClient client = HttpClientBuilder.create().build();
 
+    /**
+     * Constructor for a class in which the url is set up to receive and assign data.
+     * Url is taken from application.properties file
+     */
     public ServiceImp() {
         try {
             properties.load(new FileInputStream(new File("src/main/resources/application.properties").getAbsoluteFile()));
@@ -36,6 +45,11 @@ public class ServiceImp implements Service<Item> {
         }
     }
 
+    /**
+     * Method of extracting data from a site
+     *
+     * @return list of data
+     */
     public List<Item> getAll() {
         List<Item> all = new ArrayList<Item>();
         HttpGet getAll = new HttpGet(url);
@@ -50,6 +64,11 @@ public class ServiceImp implements Service<Item> {
         return all;
     }
 
+    /**
+     * Method of data save on a site
+     *
+     * @param item data for save
+     */
     public void save(Item item) {
         HttpPost post = new HttpPost(url);
         try {
@@ -60,6 +79,11 @@ public class ServiceImp implements Service<Item> {
         }
     }
 
+    /**
+     * Method of data update on a site
+     *
+     * @param item data for update
+     */
     public void update(Item item) {
         HttpPut put = new HttpPut(url + "/" + item.getObjectId());
         try {
@@ -70,6 +94,11 @@ public class ServiceImp implements Service<Item> {
         }
     }
 
+    /**
+     * Method of delete data on a site
+     *
+     * @param item data for delete
+     */
     public void delete(Item item) {
         HttpDelete delete = new HttpDelete(url + "/" + item.getObjectId());
         try {
