@@ -12,15 +12,29 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class ServiceImp implements Service<Item> {
-    private String url = "https://api.backendless.com/62BB5CEE-77EA-0CF4-FF5F-CC0044D53D00/" +
-            "F7D61915-C063-1526-FF36-62E1417F4900/data/todo";
+    private Properties properties = new Properties();
+    private String url;
     private HttpClient client = HttpClientBuilder.create().build();
+
+    public ServiceImp() {
+        try {
+            properties.load(new FileInputStream(new File("src/main/resources/application.properties").getAbsoluteFile()));
+            url = properties.getProperty("url") + "/" + properties.getProperty("ApplicationID")
+                    + "/" + properties.getProperty("RESTAPIkey") + "/data/todo";
+            System.out.println(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<Item> getAll() {
         List<Item> all = new ArrayList<Item>();
