@@ -3,8 +3,8 @@ package model;
 import com.alibaba.fastjson.JSON;
 
 public class Item {
-    private String id;
     private String item;
+    private String objectId;
 
     public Item() {
     }
@@ -13,16 +13,20 @@ public class Item {
         this.item = item;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public String getItem() {
         return item;
     }
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String toJSON() {

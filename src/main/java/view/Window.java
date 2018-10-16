@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
 import java.util.List;
 
 public class Window {
@@ -26,29 +25,34 @@ public class Window {
     }
 
     private void paint() {
-        contentPane.add(table(), BorderLayout.NORTH);
-        contentPane.add(addField(), BorderLayout.CENTER);
-        contentPane.add(addButton(addField()), BorderLayout.SOUTH);
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+        table();
+        contentPane.add(addField());
+        contentPane.add(addButton(addField()));
     }
 
-    private JScrollPane table() {
-        Class Item = Item.class;
-        Field[] declaredFields = Item.getDeclaredFields();
-        Object[] column = new Object[declaredFields.length + 1];
-        for (int i = 1; i < declaredFields.length; i++) {
-            column[i - 1] = declaredFields[i].getName();
-        }
-        column[declaredFields.length - 1] = "update";
-        column[declaredFields.length] = "delete";
-        Object[][] rows = new Object[all.size()][(declaredFields.length + 1)];
+    private void table() {
         for (int i = 0; i < all.size(); i++) {
-            rows[i] = new Object[]{all.get(i).getItem(), "update", "delete"};
+            Item item = all.get(i);
+            JTextField textField = new JTextField(item.getItem());
+            textField.setAutoscrolls(true);
+            JButton button = new JButton("update");
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    item.setItem(textField.getText());
+                    service.update(item);
+                }
+            });
+            JButton button1 = new JButton("delete");
+            button1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    service.delete(item);
+                }
+            });
+            contentPane.add(textField);
+            contentPane.add(button);
+            contentPane.add(button1);
         }
-        JTable table = new JTable(rows, column);//todo
-        table.setAutoCreateColumnsFromModel(true);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        return scrollPane;
     }
 
     private JTextField addField() {
@@ -62,7 +66,7 @@ public class Window {
         button.setAutoscrolls(true);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                service.save(new Item(textField.getText()));//todo
+                service.save(new Item(textField.getText()));
                 contentPane.removeAll();
                 paint();
                 contentPane.revalidate();

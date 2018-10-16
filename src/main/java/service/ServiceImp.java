@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import model.Item;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -14,7 +13,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -43,31 +41,23 @@ public class ServiceImp implements Service<Item> {
         try {
             post.setEntity(new StringEntity(item.toJSON()));
             client.execute(post);
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
-        } catch (ClientProtocolException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void update(Item item) {
-        HttpPut put = new HttpPut(url + "/" + item.getId());
+        HttpPut put = new HttpPut(url + "/" + item.getObjectId());
         try {
             put.setEntity(new StringEntity(item.toJSON()));
             client.execute(put);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void delete(Item item) {
-        HttpDelete delete = new HttpDelete(url + "/" + item.getId());
+        HttpDelete delete = new HttpDelete(url + "/" + item.getObjectId());
         try {
             client.execute(delete);
         } catch (IOException e) {
