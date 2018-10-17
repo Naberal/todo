@@ -36,10 +36,10 @@ public class ServiceImp implements Service<Item> {
      */
     public ServiceImp() {
         try {
-            properties.load(new FileInputStream(new File("src/main/resources/application.properties").getAbsoluteFile()));
+            properties.load(new FileInputStream(new File("src/main/resources",
+                    "application.properties")));
             url = properties.getProperty("url") + "/" + properties.getProperty("ApplicationID")
                     + "/" + properties.getProperty("RESTAPIkey") + "/data/todo";
-            System.out.println(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
