@@ -1,6 +1,7 @@
 package controller;
 
 import model.Item;
+import service.Service;
 import service.ServiceImp;
 
 import java.util.List;
@@ -12,7 +13,14 @@ import java.util.List;
  * @author Khmelyar Volodymyr
  */
 public class Controller {
-    private ServiceImp service = new ServiceImp();
+    private Service service;
+
+    public Controller(Service service) {
+        if (service == null) {
+            this.service = new ServiceImp();
+        }
+        this.service = service;
+    }
 
     /**
      * Mediator method for transferring data list.

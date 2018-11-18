@@ -1,3 +1,5 @@
+import controller.Controller;
+import service.ServiceImp;
 import view.Window;
 
 /**
@@ -5,7 +7,6 @@ import view.Window;
  */
 public class Main {
     public static void main(String[] args) {
-        Window window = new Window();
-        window.frame();
+        new Window(new Controller(new ServiceImp()));
     }
 }

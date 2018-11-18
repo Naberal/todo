@@ -18,10 +18,14 @@ import java.util.List;
 public class Window {
     private JFrame frame = new JFrame("todo");
     private Container contentPane = frame.getContentPane();
-    private Controller controller = new Controller();
-    private List<Item> all = controller.getAll();
+    private Controller controller;
+    private List<Item> all;
 
-    public void frame() {
+    public Window(Controller controller) {
+        this.controller = controller;
+        all = controller.getAll();
+        frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         add();
@@ -29,8 +33,6 @@ public class Window {
             table(all.get(i));
         }
         frame.setVisible(true);
-        frame.setLocation(400, 100);
-        frame.setSize(500, 500);
     }
 
     private void table(Item item) {
